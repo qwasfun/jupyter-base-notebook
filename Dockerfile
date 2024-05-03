@@ -14,6 +14,7 @@ RUN apt-get update --yes && \
     pip install -e . && \
     cd jupyter_c_kernel && install_c_kernel --user && \
     pip install jupyterlab-language-pack-zh-CN && \
+    pip install jupyterlab-git  && \
     npm install -g tslab && \
     tslab install
 
