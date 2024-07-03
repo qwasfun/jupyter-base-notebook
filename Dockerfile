@@ -1,4 +1,4 @@
-FROM  quay.io/jupyter/base-notebook:notebook-7.1.3
+FROM  quay.io/jupyter/base-notebook:notebook-7.2.1
 
 USER root
 
