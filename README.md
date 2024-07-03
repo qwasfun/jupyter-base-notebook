@@ -2,12 +2,20 @@
 
 ## Usage
 
-```
+```sh
 docker pull qwasfun/jupyter-base-notebook
 ```
 
-```
+```sh
 docker run -p 8888:8888 qwasfun/jupyter-base-notebook
+```
+
+## Build
+
+```sh
+git clone https://github.com/qwasfun/jupyter-base-notebook.git
+cd jupyter-base-notebook
+docker build -t qwasfun/jupyter-base-notebook .
 ```
 
 ## feature
@@ -19,11 +27,11 @@ docker run -p 8888:8888 qwasfun/jupyter-base-notebook
 
 ## 使用
 
-```
+```sh
 docker pull qwasfun/jupyter-base-notebook
 ```
 
-```
+```sh
 docker run -p 8888:8888 qwasfun/jupyter-base-notebook
 ```
 
