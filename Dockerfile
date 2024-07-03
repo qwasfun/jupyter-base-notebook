@@ -6,6 +6,9 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     git \
     gcc \
+    texlive-xetex \
+    texlive-fonts-recommended \
+    texlive-plain-generic \
     libc6-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     cd /srv && \
