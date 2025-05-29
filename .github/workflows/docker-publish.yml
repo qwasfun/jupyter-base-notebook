@@ -7,7 +7,7 @@ on:
     tags:
       - 'v*'
   schedule:
-    - cron: '0 0 * * 5'
+    - cron: '0 0 * * 5'  # 每周五 00:00 UTC
 
 env:
   DOCKER_IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/jupyter-base-notebook
@@ -24,13 +24,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get latest tags
+      - name: Get latest tags (JSON format)
         id: get_tags
         run: |
-          LATEST_TAGS=$(git tag --sort=-v:refname | grep '^v' | head -n 2)
-          echo "tags<<EOF" >> $GITHUB_OUTPUT
-          echo "$LATEST_TAGS" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          TAGS=$(git tag --sort=-v:refname | grep '^v' | head -n 2 | jq -R . | jq -s .)
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
 
   build-main:
     if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
@@ -49,7 +47,7 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata (tags, labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -90,7 +88,7 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata (tags, labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
