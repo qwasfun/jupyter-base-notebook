@@ -27,7 +27,7 @@ jobs:
       - name: Get latest tags (JSON format)
         id: get_tags
         run: |
-          TAGS=$(git tag --sort=-v:refname | grep '^v' | head -n 2 | jq -R . | jq -s .)
+          TAGS=$(git tag --sort=-v:refname | grep '^v' | head -n 2 | jq -sR 'split("\n")[:-1]')
           echo "tags=${TAGS}" >> $GITHUB_OUTPUT
 
   build-main:
