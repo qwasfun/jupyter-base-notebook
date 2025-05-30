@@ -26,8 +26,19 @@ jobs:
       - name: Get latest tags (JSON format)
         id: get_tags
         run: |
-          TAGS=$(git tag --sort=-v:refname | grep '^v' | head -n 2 | jq -sR 'split("\n")[:-1]')
-          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          # 获取最新的两个标签并转换为JSON数组
+          LATEST_TAGS=$(git tag --sort=-v:refname | grep '^v' | head -n 2)
+          JSON_TAGS="["
+          while IFS= read -r tag; do
+            if [ ! -z "$tag" ]; then
+              if [ "$JSON_TAGS" != "[" ]; then
+                JSON_TAGS="$JSON_TAGS,"
+              fi
+              JSON_TAGS="$JSON_TAGS\"$tag\""
+            fi
+          done <<< "$LATEST_TAGS"
+          JSON_TAGS="$JSON_TAGS]"
+          echo "tags=$JSON_TAGS" >> $GITHUB_OUTPUT
 
   build-main:
     if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
