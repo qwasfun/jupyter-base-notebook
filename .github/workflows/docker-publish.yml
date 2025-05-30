@@ -32,7 +32,6 @@ jobs:
 
   build-main:
     if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-    needs: get-latest-tags
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
